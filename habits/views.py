@@ -13,7 +13,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         """метод для записи авторизованного пользователя в качестве автора """
-        #print(self.request.user)   #для отладки
+        print(self.request.user)   #для отладки
         habit = serializer.save(author=self.request.user)
         habit.save()
 
@@ -37,8 +37,8 @@ class HabitPublicListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        owner_queryset = queryset.filter(is_public=True)
-        return owner_queryset
+        publish_queryset = queryset.filter(is_publish=True)
+        return publish_queryset
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
     serializer_class = HabitSerializer
