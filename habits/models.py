@@ -8,7 +8,7 @@ class Habit(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, verbose_name='Автор',
                                **NULLABLE)
     place = models.CharField(max_length=100, verbose_name='Место')
-    habit_time = models.TimeField(verbose_name='Время')
+    habit_time = models.TimeField(verbose_name='Время', **NULLABLE)
     habit = models.CharField(max_length=500, verbose_name='Привычка')
     is_nice = models.BooleanField(verbose_name='Приятная привычка', default=False)
     attached_habit = models.IntegerField(verbose_name='Привязанная привычка', **NULLABLE)
@@ -18,6 +18,7 @@ class Habit(models.Model):
     lead_time_new = models.IntegerField(verbose_name='Время на  выполнение привычки в секундах',
                                         validators=[MaxValueValidator(120)])  # не больше 120секунд!
     is_publish = models.BooleanField(verbose_name='Общий доступ', default=False)
+    data_create = models.DateField(verbose_name='дата создания', auto_now_add=True, **NULLABLE)
 
     def __str__(self):
         '''строковое отображение обьекта'''

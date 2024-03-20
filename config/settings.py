@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'users',
     'habits',
     'rest_framework_simplejwt',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,6 @@ SIMPLE_JWT = {
 }
 
 TELEGRAM_API_TOKEN = TELEGRAM_API_TOKEN
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'

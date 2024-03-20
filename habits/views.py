@@ -4,8 +4,7 @@ from habits.serializers import HabitSerializer
 from rest_framework.permissions import IsAuthenticated
 from habits.permissions import AuthorPermissionsClass
 from habits.paginators import HabitsPaginator
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+
 
 class HabitCreateAPIView(generics.CreateAPIView):
     serializer_class = HabitSerializer
@@ -16,22 +15,6 @@ class HabitCreateAPIView(generics.CreateAPIView):
         #print(self.request.user)   #для отладки
         habit = serializer.save(author=self.request.user)
         habit.save()
-
-    def post(self, request):
-        # print(request.data)  #для отладки
-        serializer = HabitSerializer(data=request.data)
-        id_attached_habit = self.request.data['attached_habit'] #получаем id связанной привычки из self.request.data
-        # print(id_attached_habit)  #для отладки
-        # получаем запись связанной привычки из БД:
-        #attached_habit = Habit.objects.filter(id=id_attached_habit)
-        attached_habit = get_object_or_404(Habit, id=id_attached_habit)
-        #print(attached_habit)    #для отладки
-        #print(attached_habit.is_nice)   #для отладки
-        #проверяем приятная ли найденная привычка
-        if attached_habit.is_nice == False:
-            message = "связанная привычка должна быть приятной,а не полезной"
-            return Response({"message": message})
-        return Response({"message": "связанная привычка успешно присвоена"})
 
 
 class HabitListAPIView(generics.ListAPIView):
@@ -60,24 +43,6 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated & AuthorPermissionsClass]
-
-    def update(self, request, pk):
-        # print(request.data)  #для отладки
-        serializer = HabitSerializer(data=request.data)
-        if serializer.is_valid():
-            id_attached_habit = self.request.data['attached_habit'] #получаем id связанной привычки из self.request.data
-            # print(id_attached_habit)  #для отладки
-            # получаем запись связанной привычки из БД:
-            #attached_habit = Habit.objects.filter(id=id_attached_habit)
-            attached_habit = get_object_or_404(Habit, id=id_attached_habit)
-            #print(attached_habit)    #для отладки
-            print(attached_habit.is_nice)   #для отладки
-            #проверяем приятная ли найденная привычка
-            if attached_habit.is_nice == False:
-                message = "связанная привычка должна быть приятной,а не полезной"
-                return Response({"message": message})
-            serializer.save()
-            return Response({"message": "связанная привычка успешно присвоена"})
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
