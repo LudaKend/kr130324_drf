@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'users',
     'habits',
     'rest_framework_simplejwt',
-    'django_celery_beat'
+    'django_celery_beat',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -158,3 +160,11 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(minutes=1),
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",
+]
+CORS_ALLOWED_ALL_ORIGINS = False
