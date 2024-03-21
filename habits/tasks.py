@@ -1,26 +1,24 @@
 from celery import shared_task
-from django.core.mail import send_mail
-from django.core.management import settings
 from config import settings
 import requests
-from habits.models import Habit
-import datetime
-from datetime import datetime, timedelta
+from users.models import User
+from habits.management.commands.make_send_list import make_habit_list
+from django.shortcuts import get_object_or_404
 
-URL = 'http:/api.telegram.org/bot'
+
+URL = 'https://api.telegram.org/bot'
 TOKEN = settings.TELEGRAM_API_TOKEN
 
 @shared_task
 def send_habit_list():
-    habit_list = Habit.objects.all(is_nice=False)  # выбираем полезные привычки
-    current_date = datetime.now().date()  # текущяя дата
-    for habit in habit_list:
-        print(habit.data_create)
-        print(habit.period)
-        print(current_date - habit.data_create)
+    send_list = make_habit_list()
+    for send in send_list:
+        tmp_user = get_object_or_404(User, email=send.author)
+        print(tmp_user.telegram)       #для отладки
+        text = f'{send.habit} в {send.habit_time} в {send.place}'
+        print(text)                    #для отладки
+        response = requests.post(url=f'{URL}{TOKEN}/sendMessage',
+                                 data={'chat_id': tmp_user.telegram, 'text': text, })
 
-
-# response = requests.post(
-#     url=f'{URL}{TOKEN}/отправляю напоминание', data = {'chat_id':user_telegram, 'text':text, }
-# )
-# print(response)
+        print(response.status_code)    #для отладки
+        print(response.json())         #для отладки

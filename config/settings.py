@@ -151,3 +151,10 @@ TELEGRAM_API_TOKEN = TELEGRAM_API_TOKEN
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_BEAT_SCHEDULE = {
+    'reminder': {
+        'task': "habits.tasks.send_habit_list",
+        'schedule': timedelta(minutes=1),
+    }
+}
