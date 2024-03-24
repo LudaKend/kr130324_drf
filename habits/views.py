@@ -28,6 +28,7 @@ class HabitListAPIView(generics.ListAPIView):
         owner_queryset = queryset.filter(author=self.request.user)
         return owner_queryset
 
+
 class HabitPublicListAPIView(generics.ListAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
@@ -39,6 +40,7 @@ class HabitPublicListAPIView(generics.ListAPIView):
         publish_queryset = queryset.filter(is_publish=True)
         return publish_queryset
 
+
 class HabitUpdateAPIView(generics.UpdateAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
@@ -48,4 +50,3 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
 class HabitDestroyAPIView(generics.DestroyAPIView):
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated & AuthorPermissionsClass]
-
