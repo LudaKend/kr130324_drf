@@ -7,5 +7,5 @@ class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = '__all__'
-        validators = [NiceHabitValidator('is_nice', 'bonus', 'attached_habit'),
-                      OnlyNiceHabitValidator('attached_habit')]
+        validators = [NiceHabitValidator('is_nice', 'bonus', 'attached_habit_new'),
+                      OnlyNiceHabitValidator('attached_habit_new')]
