@@ -11,7 +11,6 @@ class Habit(models.Model):
     habit_time = models.TimeField(verbose_name='Время', default='09:00:00')
     habit = models.CharField(max_length=500, verbose_name='Привычка')
     is_nice = models.BooleanField(verbose_name='Приятная привычка', default=False)
-
     attached_habit_new = models.ForeignKey('Habit', verbose_name='Связанная привычка', **NULLABLE,
                                            on_delete=models.SET_NULL, related_name='nice_habit')
     period = models.IntegerField(verbose_name='Периодичность в днях', validators=[MaxValueValidator(7)], default='1')
