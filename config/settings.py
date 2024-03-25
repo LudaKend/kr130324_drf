@@ -19,17 +19,24 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR/'.env')
-#пароль для доступа к БД Postgresql
+
+#для доступа к БД Postgresql
+FOR_POSTGRES_USER = os.getenv('FOR_POSTGRES_USER')
+FOR_POSTGRES_NAME = os.getenv('FOR_POSTGRES_NAME')
 FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')
 
 #доступ к боту Телеграмм
 TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
+#доступ к CELERY
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#ss&t3u%1pt(_mz=_^obvowm835m+n-755y@7r!v4ucvot3g2i'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,8 +99,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kr130324_drf',
-        'USER': 'postgres',
+        'NAME': FOR_POSTGRES_NAME,
+        'USER': FOR_POSTGRES_USER,
         'HOST': '127.0.0.1',
         'PORT': 5432,
         'PASSWORD': FOR_POSTGRES_PASSWORD,
@@ -154,8 +161,8 @@ SIMPLE_JWT = {
 
 TELEGRAM_API_TOKEN = TELEGRAM_API_TOKEN
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = CELERY_BROKER_URL
+CELERY_RESULT_BACKEND = CELERY_RESULT_BACKEND
 
 CELERY_BEAT_SCHEDULE = {
     'reminder': {
