@@ -1,6 +1,4 @@
 from rest_framework.serializers import ValidationError
-from habits.models import Habit
-from django.shortcuts import get_object_or_404
 
 
 class UsefulHabitValidator:
@@ -10,14 +8,14 @@ class UsefulHabitValidator:
         self.attached_habit_new = attached_habit_new
 
     def __call__(self, value):
-        print(value)        #для отладки
+        #print(value)        #для отладки
         tmp_is_nice = dict(value).get(self.field_is_nice)
-        print(tmp_is_nice)    #для отладки
+        #print(tmp_is_nice)    #для отладки
         tmp_bonus = dict(value).get(self.field_bonus)
-        print(tmp_bonus)    #для отладки
+        #print(tmp_bonus)    #для отладки
         tmp_attached_habit_new = dict(value).get(self.attached_habit_new)
-        print(tmp_attached_habit_new)    #для отладки
-        print(tmp_attached_habit_new is None)
+        #print(tmp_attached_habit_new)    #для отладки
+        #print(tmp_attached_habit_new is None)
 
         # если привычка полезная
         if tmp_is_nice is False:
@@ -63,10 +61,5 @@ class OnlyNiceHabitValidator:
         print(tmp_attached_habit_new)  # для отладки
 
         if tmp_attached_habit_new is not None:
-        #     # получаем запись связанной привычки из БД:
-        #     attached_habit_new = get_object_or_404(Habit, id=tmp_attached_habit_new)
-        #     print(attached_habit_new)  # для отладки
-        #     if attached_habit_new.is_nice is False:
-        #         raise ValidationError('связанная привычка должна быть приятной,а не полезной')
             if tmp_attached_habit_new.is_nice is False:
                 raise ValidationError('связанная привычка должна быть приятной,а не полезной')
