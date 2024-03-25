@@ -19,7 +19,11 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR/'.env')
-FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')   #пароль для доступа к БД Postgresql
+#пароль для доступа к БД Postgresql
+FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')
+
+#доступ к боту Телеграмм
+TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -45,6 +49,9 @@ INSTALLED_APPS = [
     'users',
     'habits',
     'rest_framework_simplejwt',
+    'django_celery_beat',
+    'corsheaders',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -136,7 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-#    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication', ]
 }
 
@@ -144,3 +151,26 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=300),
 }
+
+TELEGRAM_API_TOKEN = TELEGRAM_API_TOKEN
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_BEAT_SCHEDULE = {
+    'reminder': {
+        'task': "habits.tasks.send_habit_list",
+        'schedule': timedelta(minutes=1),
+    }
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://read-only.example.com",
+    "https://read-and-write.example.com",
+    #'http://*',
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://read-and-write.example.com",
+]
+CORS_ALLOWED_ALL_ORIGINS = False

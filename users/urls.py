@@ -9,4 +9,4 @@ urlpatterns = [
     path('token/', MyTokenObtainPairView.as_view(), name='get_token'),
     path('token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),
     path('register/', UserCreateAPIView.as_view(), name='register_users'),
-    ]
+]
