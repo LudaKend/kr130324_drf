@@ -13,4 +13,5 @@ def make_habit_list():
         #print(delta.days)          #для отладки
         if delta.days % habit.period == 0:
             send_list.append(habit)
+
     return send_list

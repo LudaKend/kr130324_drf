@@ -2,7 +2,7 @@ from celery import shared_task
 from config import settings
 import requests
 from users.models import User
-from habits.management.commands.make_send_list import make_habit_list
+from habits.services import make_habit_list
 from django.shortcuts import get_object_or_404
 
 

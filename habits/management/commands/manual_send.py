@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from habits.management.commands.make_send_list import make_habit_list
+from habits.services import make_habit_list
 
 
 class Command(BaseCommand):
