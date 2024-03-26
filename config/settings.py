@@ -20,15 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / '.env')
 
-#для доступа к БД Postgresql
+# для доступа к БД Postgresql
 FOR_POSTGRES_USER = os.getenv('FOR_POSTGRES_USER')
 FOR_POSTGRES_NAME = os.getenv('FOR_POSTGRES_NAME')
 FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')
 
-#доступ к боту Телеграмм
+# доступ к боту Телеграмм
 TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
-#доступ к CELERY
+# доступ к CELERY
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
@@ -112,16 +112,21 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -151,7 +156,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication', ]
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        ['rest_framework_simplejwt.authentication.JWTAuthentication', ]
 }
 
 SIMPLE_JWT = {
@@ -175,7 +181,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://read-only.example.com",
     "https://read-and-write.example.com",
-    #'http://*',
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",

@@ -11,8 +11,9 @@ class UserCreateAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
-        """метод для сохранения хешированного пароля в бд (если пароль не хешируется -
-        пользователь не считается активным и токен авторизации не создается)"""
+        """метод для сохранения хешированного пароля в бд (если пароль
+         не хешируется - пользователь не считается активным и токен
+         авторизации не создается)"""
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -23,7 +24,8 @@ class UserCreateAPIView(generics.CreateAPIView):
         # здесь хэш генерируем из пароля
         user.set_password(password)
         user.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED,
+                        headers=headers)
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

@@ -12,7 +12,6 @@ class HabitCreateAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         """метод для записи авторизованного пользователя в качестве автора """
-        #print(self.request.user)   #для отладки
         habit = serializer.save(author=self.request.user)
         habit.save()
 
