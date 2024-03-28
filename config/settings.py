@@ -18,18 +18,13 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR/'.env')
-#пароль для доступа к БД Postgresql
-FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')
-
-#доступ к боту Телеграмм
-TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#ss&t3u%1pt(_mz=_^obvowm835m+n-755y@7r!v4ucvot3g2i'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -92,11 +87,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kr130324_drf',
-        'USER': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': 5432,
-        'PASSWORD': FOR_POSTGRES_PASSWORD,
+        'NAME': os.getenv('FOR_POSTGRES_NAME'),
+        'USER': os.getenv('FOR_POSTGRES_USER'),
+        'HOST': os.getenv('FOR_POSTGRES_HOST'),
+        'PORT': os.getenv('FOR_POSTGRES_PORT'),
+        'PASSWORD': os.getenv('FOR_POSTGRES_PASSWORD'),
     }
 }
 
@@ -105,16 +100,21 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -144,7 +144,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication', ]
+    'DEFAULT_AUTHENTICATION_CLASSES':
+        ['rest_framework_simplejwt.authentication.JWTAuthentication', ]
 }
 
 SIMPLE_JWT = {
@@ -152,10 +153,10 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=300),
 }
 
-TELEGRAM_API_TOKEN = TELEGRAM_API_TOKEN
+TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 CELERY_BEAT_SCHEDULE = {
     'reminder': {
@@ -168,7 +169,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://read-only.example.com",
     "https://read-and-write.example.com",
-    #'http://*',
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://read-and-write.example.com",
