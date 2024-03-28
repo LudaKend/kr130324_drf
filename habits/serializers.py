@@ -7,7 +7,7 @@ from habits.validators import NiceHabitValidator, \
 class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
-        fields = '__all__'
+        exclude = ('author',)
         validators = [NiceHabitValidator('is_nice', 'bonus',
                                          'attached_habit_new'),
                       UsefulHabitValidator('is_nice', 'bonus',
